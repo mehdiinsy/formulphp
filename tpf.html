@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+        <title>Document</title>
+</head>
+<body onload="dupliquer()">
+    <form action="tpf.php" method="post" enctype="multipart/form-data">
+    
+    <div class="row">
+        <div class="col-3"></div>
+    <div class="w-50 p-3">
+    <fieldset class="border p-3">
+        <legend class="float-none w-auto">Etat civil</legend>
+
+        <label for="">photos de profil</label>
+        <input type="file"> <br><br>
+        
+        <label for="Civilité">Civilité
+        <select name="Civilite" id="">
+            
+            <option value="Mr">Mr</option>
+            <option value="Mme">Mme</option>
+        </select></label> <br><br>
+
+        <label for="Nom">Nom</label>
+        <input type="text" name="Nom"><br><br>
+
+        <label for="Prénom">Prénom</label>
+        <input type="text" name="Prenom"><br><br>
+
+        <label for="Date de naissance">Date de naissance</label> 
+        <input type="date" name="ddn"><br><br>
+
+        <label for="Commune de naissance">Commune de naissance</label>
+        <input type="text" name="Commune" id="Commune"><br><br>
+
+        <select name="Region" id="com" onchange="dupliquer()">
+            <option>Ardennes</option>
+            <option>ile-de-france</option>
+            <option>Bouches-du-Rhône</option>
+            <option>Hérault</option>
+        </select>
+    </fieldset>
+</div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-3"></div>
+<div class="w-50 p-3">
+    <fieldset class="border p-2">
+        <legend  class="float-none w-auto">Coordonnées</legend>
+
+
+        <label for="Téléphone">Téléphone</label>
+        <input type="tel" name="Tel"><br><br>
+
+        <label for="Courriel">Courriel</label>
+        <input type="email" name="Email"><br><br>
+
+        <label for="site web">site web</label> 
+        <input type="url" name="web">
+
+    </fieldset>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-3"></div>
+<div class="w-50 p-3 ">
+    <fieldset class="border p-2">
+        <legend  class="float-none w-auto">Compétences</legend>
+
+<label>Niveau d'anglais :
+        <label>C1 <input type="radio" name="Niveau" value="C1"></label>
+        <label>B1 <input type="radio" name="Niveau" value="B1"></label>
+        <label>A1 <input type="radio" name="Niveau" value="A1"></label>
+</label><br><br>
+<label>Languages informatiques :
+        <label>HTML <input type="checkbox" name="Languages[]" value="HTML"></label>
+        <label>CSS <input type="checkbox" name="Languages[]" value="CSS"></label>
+        <label>Javascript <input type="checkbox" name="Languages[]" value="Js"></label>
+        <label>PHP <input type="checkbox" name="Languages[]" value="PHP"></label>
+</label>
+    </fieldset>
+</div>
+
+<div class="text-center">
+    <input type="submit">
+    <input type="reset" value="Effacer">
+</div>
+</div>
+</form>
+
+
+<script src="tpf.js"></script>
+</body>
+</html>
