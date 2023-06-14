@@ -2,13 +2,20 @@
 require_once('cnx.php');
 $bdd = retourcnx();
 
+var_dump($_FILES['file']);
+
 if(isset ($_POST['Civilite']) && isset($_POST['Nom']) &&
  isset ($_POST['Prenom']) && isset($_POST['ddn']) &&
  isset ($_POST['Commune']) && isset($_POST['Region']) &&
  isset ($_POST['Tel']) && isset($_POST['Email']) &&
  isset ($_POST['web']) && isset($_POST['Niveau']) &&
- isset($_POST['Languages']) && isset($_FILES['img']['tmp_name'])
-){
+ isset($_POST['Languages']) && isset($_FILES['file']['tmp_name'])
+ ){
+    print_r($_FILES);
+    $tmpName = $_FILES['file']['tmp_name'];
+    $name = $_FILES['file']['name'];
+    $size = $_FILES['file']['size'];
+    $error = $_FILES['file']['error'];
     echo $_POST['Civilite']. "<br>";
     echo $_POST['Nom']. "<br>";
     echo $_POST['Prenom']. "<br>";
@@ -21,6 +28,34 @@ if(isset ($_POST['Civilite']) && isset($_POST['Nom']) &&
     echo $_POST['Niveau']. "<br>";
     print_r($_POST['Languages']);
 }
+    
+// move_uploaded_file('tmp_name', './img/'.'img');
+// $tabExtension = explode('.', 'img');
+// $extension = strtolower(end($tabExtension));
+// //Tableau des extensions que l'on accepte
+// $extensions = ['jpg', 'png', 'jpeg', 'gif'];
+// if(in_array($extension, $extensions)){
+//     move_uploaded_file($tmpName, './img/'.$name);
+// }
+// else{
+//     echo "Mauvaise extension";
+// }
+
+// $maxSize = 400000;
+// if(in_array($extension, $extensions) && $size <= $maxSize){
+//     move_uploaded_file($tmpName, './img/'.$name);
+// }
+// else{
+//     echo "Mauvaise extension ou taille trop grande";
+// }
+
+// if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+//     move_uploaded_file($tmpName, './img/'.$name);
+// }
+// else{
+//     echo "Une erreur est survenue";
+// }
+
 
 $Civilite = $_POST['Civilite'];
 $Nom = $_POST['Nom'];
@@ -50,46 +85,62 @@ Email VARCHAR(99),
 web VARCHAR(99),
 Niveau VARCHAR(99),
 Languages VARCHAR(99),
--- img image
+img VARCHAR(255),
 PRIMARY KEY(idClient)
 )");
 
-$str= "insert into client(Civilite,Nom,Prenom,ddn,Commune,Tel,Email,web,Niveau,Languages)
-Values('$Civilite','$Nom','$Prenom','$ddn','$Commune','$Tel','$Email','$web','$Niveau','$Languages')";
+
+
+// $req = $bdd->prepare('INSERT INTO client(img) VALUES (img)');
+// $req->execute();
+// echo "Image enregistrée";
+
+// $req = $bdd->query('SELECT img FROM client');
+//         while($data = $req->fetch()){
+//             var_dump($data);
+//         }
+
+        $req = $bdd->query('SELECT "name" FROM client');
+    while($data = $req->fetch()){
+        echo "<img src='./img/".$tof."' width='300px' ><br>";
+    }
+
+    $tof = $_FILES['file']['tmp_name'];
+    move_uploaded_file($tof, './img/'.$_FILES['file']['name']);
+$str= "insert into client(Civilite,Nom,Prenom,ddn,Commune,Tel,Email,web,Niveau,Languages,img)
+Values('$Civilite','$Nom','$Prenom','$ddn','$Commune','$Tel','$Email','$web','$Niveau','$Languages','$tof')";
 $bdd->exec($str);
 echo     '<link rel="stylesheet" href="bootstrap.min.css">';
 
 
 $req = $bdd->prepare("select idClient,Civilite,Nom,Prenom,ddn,Commune,Tel,Email,web,Niveau,Languages from client");
 $req->execute();
-echo "</br>";
-echo '<table border class="table table-hover">';
-if($req->rowCount()==0){
-    echo "Vous n'avez pas de clients";
-}
-    else{
-    echo '<tr class="table-warning"</tr><th></th><th>id</th><th>Civilite</th><th>Nom</th><th>Prenom</th><th>ddn</th><th>Commune</th><th>Mail</th><th>Tel</th><th>Site</th><th>Niveau</th><th>Languages</th>';
-} 
+// echo "</br>";
+// echo '<table border class="table table-hover">';
+// if($req->rowCount()==0){
+//     echo "Vous n'avez pas de clients";
+// }
+//     else{
+//     echo '<tr class="table-warning"</tr><th></th><th>id</th><th>Civilite</th><th>Nom</th><th>Prenom</th><th>ddn</th><th>Commune</th><th>Mail</th><th>Tel</th><th>Site</th><th>Niveau</th><th>Languages</th>';
+// } 
     
-    while($d = $req->fetch()){
-    echo '<tr><th class="table-success">client</th><th>' . $d['0'] . "</th>";
-    echo "<th>" . $d['1'] . "</th>";
-    echo "<th>" . $d['2'] . "</th>";
-    echo "<th>" . $d['3'] . "</th>";
-    echo "<th>" . $d['4'] . "</th>";
-    echo "<th>" . $d['5'] . "</th>";
-    echo "<th>" . $d['6'] . "</th>";
-    echo "<th>" . $d['7'] . "</th>";
-    echo "<th>" . $d['8'] . "</th>";
-    echo "<th>" . $d['9'] . "</th>";
-    echo "<th>" . $d['10'] . "</th></tr>";
-
-    
-}
-echo "</table>";
+//     while($d = $req->fetch()){
+//     echo '<tr><th class="table-success">client</th><th>' . $d['0'] . "</th>";
+//     echo "<th>" . $d['1'] . "</th>";
+//     echo "<th>" . $d['2'] . "</th>";
+//     echo "<th>" . $d['3'] . "</th>";
+//     echo "<th>" . $d['4'] . "</th>";
+//     echo "<th>" . $d['5'] . "</th>";
+//     echo "<th>" . $d['6'] . "</th>";
+//     echo "<th>" . $d['7'] . "</th>";
+//     echo "<th>" . $d['8'] . "</th>";
+//     echo "<th>" . $d['9'] . "</th>";
+//     echo "<th>" . $d['10'] . "</th></tr>";
+// }
+// echo "</table>";
 
 
-header('location: ./formul.html');
+// header('location: ./formul.html');
 
 ?>
 
