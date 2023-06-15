@@ -100,19 +100,21 @@ PRIMARY KEY(idClient)
 //             var_dump($data);
 //         }
 
-        $req = $bdd->query('SELECT "name" FROM client');
-    while($data = $req->fetch()){
-        echo "<img src='./img/".$tof."' width='300px' ><br>";
-    }
 
-    $tof = $_FILES['file']['tmp_name'];
-    move_uploaded_file($tof, './img/'.$_FILES['file']['name']);
+$tof = 'img/'.basename($_FILES['file']['name']);
+move_uploaded_file($tof, 'img/'.basename($_FILES['file']['name']));
 $str= "insert into client(Civilite,Nom,Prenom,ddn,Commune,Tel,Email,web,Niveau,Languages,img)
 Values('$Civilite','$Nom','$Prenom','$ddn','$Commune','$Tel','$Email','$web','$Niveau','$Languages','$tof')";
 $bdd->exec($str);
 echo     '<link rel="stylesheet" href="bootstrap.min.css">';
 
 
+$req = $bdd->prepare('SELECT img FROM client');
+$req->execute();
+while($data = $req->fetch()){
+echo $data[0];
+echo "<img src='".$data[0]."' alt='probleme' width='300px' ><br>";
+}
 $req = $bdd->prepare("select idClient,Civilite,Nom,Prenom,ddn,Commune,Tel,Email,web,Niveau,Languages from client");
 $req->execute();
 // echo "</br>";
